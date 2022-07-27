@@ -10,16 +10,14 @@ class Ecs {
     }
 
     tick() {
-		console.debug(this.tickCount)
         this.tickCount++;
-        this.systems.forEach((system) => {system.beforeTick(this)});
+        this.systems.sort((a, b) => a.priority - b.priority);
         this.systems.forEach((system) => {system.tick(this)});
-        this.systems.forEach((system) => {system.afterTick(this)});
     }
 
-	entitiesWithComponents(componentNames) {
+	entitiesWithComponents(componentNames, active=true) {
 		return this.entities.filter((entity) => {
-			return componentNames.every((componentName) => entity.componentNames.includes(componentName));
+			return entity.active == active && componentNames.every((componentName) => entity.componentNames.includes(componentName));
 		})
 	}
 }
@@ -27,9 +25,9 @@ class Ecs {
 let id = 0
 
 class System {
-	beforeTick() {}
+    priority = 1;
+
 	tick() {}
-	afterTick() {}
 }
 
 class Entity {
@@ -37,7 +35,9 @@ class Entity {
 		this.id = id++;
 		this.name = descriptor.name;
 		this.descriptor = descriptor;
+		this.active = true;
 		this.componentNames = Object.keys(descriptor.components);
+
 		Object.keys(descriptor.components).forEach((componentName) => {
 			const component = descriptor.components[componentName];
 			this[componentName] = {};
