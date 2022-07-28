@@ -6,6 +6,7 @@ import KeyboardMovement from '../components/keyboard_movement.js';
 import KeyboardDash from '../components/keyboard_dash.js';
 import RigidBody from '../components/rigid_body.js';
 import BoundingBox from '../components/bounding_box.js';
+import CircleCollider from '../components/circle_collider.js';
 
 export default {
     name: "BlackHole",
@@ -13,6 +14,7 @@ export default {
         BoundingBox,
         KeyboardMovement,
         KeyboardDash,
+        CircleCollider,
         Circle,
         Transform,
         RigidBody,

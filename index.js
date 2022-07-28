@@ -53,7 +53,7 @@ class Ecs {
 
     entitiesWithComponents(componentNames, active=true) {
         return this.entities.filter((entity) => {
-            return entity.active == active && componentNames.every((componentName) => entity.componentNames.includes(componentName));
+            return entity.active == active && componentNames.every((componentName) => entity.hasComponent(componentName));
         })
     }
 }
@@ -94,6 +94,10 @@ class Entity {
                 this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
             }) ;
         });
+    }
+
+    hasComponent(componentName) {
+        return this.componentNames.includes(componentName);
     }
 }
 
