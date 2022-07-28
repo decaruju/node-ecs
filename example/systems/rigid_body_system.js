@@ -3,6 +3,8 @@ export default class extends System {
         ecs.entitiesWithComponents(['RigidBody', 'Transform']).forEach((entity) => {
             entity.RigidBody.speed[0] += entity.RigidBody.acceleration[0];
             entity.RigidBody.speed[1] += entity.RigidBody.acceleration[1];
+            entity.RigidBody.speed[0] *= 0.99;
+            entity.RigidBody.speed[1] *= 0.99;
             entity.Transform.position[0] += entity.RigidBody.speed[0];
             entity.Transform.position[1] += entity.RigidBody.speed[1];
             entity.RigidBody.acceleration[0] = 0;

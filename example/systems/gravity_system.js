@@ -10,7 +10,7 @@ export default class extends System {
                 if (distance2 == 0) {
                     return
                 }
-                const acceleration = entity2.Mass.mass/distance2;
+                const acceleration = entity2.Mass.mass/(distance2*entity1.Mass.mass);
                 const angle = Math.atan2(dy, dx)
 
                 entity1.RigidBody.acceleration[0] += acceleration * Math.cos(angle);
