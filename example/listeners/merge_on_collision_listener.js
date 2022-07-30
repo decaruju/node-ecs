@@ -14,9 +14,9 @@ export default class extends Listener {
                 entity1.Circle.radius = Math.sqrt(entity1.Circle.radius**2 +entity2.Circle.radius);
             }
             const newRadius = Math.sqrt(entity1.CircleCollider.radius**2 +entity2.CircleCollider.radius);
-            entity1.Animated.addAnimation('CircleCollider.radius', newRadius, 5);
-            entity1.Animated.addAnimation('Sprite.size.0', newRadius*2, 5);
-            entity1.Animated.addAnimation('Sprite.size.1', newRadius*2, 5);
+            entity1.CircleCollider.radius = newRadius;
+            entity1.Animated.addAnimation('Sprite.size.0', newRadius*2, 100);
+            entity1.Animated.addAnimation('Sprite.size.1', newRadius*2, 100);
         }
     }
 }

@@ -1,10 +1,12 @@
 export default {
     fields: {
-        animations: [],
+        animations: {},
     },
     methods: {
         addAnimation(property, endValue, ticks) {
-            this.animations.push({
+            if (!this.animations[property])
+                this.animations[property] = []
+            this.animations[property].push({
                 endValue,
                 totalTicks: ticks,
                 currentTick: 0.0,

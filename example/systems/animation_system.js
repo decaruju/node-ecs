@@ -1,15 +1,25 @@
 export default class extends System {
     tick(ecs) {
         ecs.entitiesWithComponents(["Animated"]).forEach((entity) => {
-            entity.Animated.animations.forEach((animation) => {
+            const propertiesToShift = []
+            Object.values(entity.Animated.animations).forEach((animations) => {
+                const animation = animations[0]
                 if (animation.startValue === undefined) {
                     animation.startValue = dig(animation.property, entity);
                 }
                 const alpha = animation.currentTick/animation.totalTicks;
                 set(animation.property, entity, animation.startValue*(1-alpha)+animation.endValue*alpha)
                 animation.currentTick++;
+                if (animation.currentTick >= animation.totalTicks) {
+                    propertiesToShift.push(animation.property)
+                }
             });
-            entity.Animated.animations = entity.Animated.animations.filter((animation) => animation.currentTick < animation.totalTicks)
+            propertiesToShift.forEach((property) => {
+                entity.Animated.animations[property].shift();
+                if (entity.Animated.animations[property].length == 0) {
+                    delete entity.Animated.animations[property]
+                }
+            });
         });
     }
 }
