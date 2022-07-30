@@ -99,6 +99,9 @@ class Entity {
             Object.keys(component.fields).forEach((fieldName) => {
                 this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
             }) ;
+            Object.keys(component.methods || {}).forEach((methodName) => {
+                this[componentName][methodName] = component.methods[methodName];
+            }) ;
             if (component.onCreate) {
                 component.onCreate.call(this[componentName], this, ecs);
             }

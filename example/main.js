@@ -10,6 +10,7 @@ import KeyboardMovementSystem from './systems/keyboard_movement_system.js';
 import CollisionSystem from './systems/collision_system.js';
 import CanvasClearWebgl from './systems/canvas_clear_webgl.js';
 import CanvasDrawQuadWebgl from './systems/canvas_draw_quad_webgl.js';
+import AnimationSystem from './systems/animation_system.js';
 
 import KeyboardDashListener from './listeners/keyboard_dash_listener.js';
 import MergeOnCollisionListener from './listeners/merge_on_collision_listener.js';
@@ -29,6 +30,7 @@ const ecs = new Ecs(
         new KeyboardMovementSystem(),
         new CanvasClearWebgl(),
         new CanvasDrawQuadWebgl(),
+        new AnimationSystem(),
     ],
     [new KeyboardDashListener(), new MergeOnCollisionListener()],
     {
@@ -38,7 +40,7 @@ const ecs = new Ecs(
         },
     },
 );
-Array.apply(null, Array(400)).forEach(() => ecs.addEntity(Particle, {Color: {color: '#9090CC'}, Sprite: { src:  "resources/orb_blue.png" }, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, Circle: { radius: 1 }, CircleCollider: { radius: 1 }, Mass: {mass: 0.1}}))
+Array.apply(null, Array(400)).forEach(() => ecs.addEntity(Particle, {Color: {color: '#9090CC'}, Sprite: { src:  "resources/orb_blue.png" }, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, CircleCollider: { radius: 5 }, Mass: {mass: 0.1}}))
 ecs.addEntity(Blackhole, {Transform: {position: [500, 500]}, Mass: {mass: 100}, Sprite: {size: [60, 60], src: "resources/orb_blue.png" }, CircleCollider: {radius: 30}});
 
 function runOnce() {

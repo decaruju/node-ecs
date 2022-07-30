@@ -1,6 +1,7 @@
 import Sprite from '../components/sprite.js';
 import Transform from '../components/transform.js';
 import Mass from '../components/mass.js';
+import Animated from '../components/animated.js';
 import RigidBody from '../components/rigid_body.js';
 import BoundingBox from '../components/bounding_box.js';
 import CircleCollider from '../components/circle_collider.js';
@@ -16,5 +17,6 @@ export default {
         CircleCollider,
         MergeOnCollision,
         Sprite,
+        Animated,
     },
 }
