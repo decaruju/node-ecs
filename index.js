@@ -1,6 +1,6 @@
 class Ecs {
-    constructor(entities, systems, listeners, globals) {
-        this.entities = entities;
+    constructor(systems, listeners, globals) {
+        this.entities = [];
         this.systems = systems;
         this.events = [];
         this.callbacks = [];
@@ -56,6 +56,12 @@ class Ecs {
             return entity.active == active && componentNames.every((componentName) => entity.hasComponent(componentName));
         })
     }
+
+    addEntity(entityClass, descriptor) {
+        const entity = new Entity(this, entityClass, descriptor);
+        this.entities.push(entity);
+        return entity;
+    }
 }
 
 let id = 0
@@ -80,7 +86,7 @@ class Event {
 }
 
 class Entity {
-    constructor(descriptor, componentValues) {
+    constructor(ecs, descriptor, componentValues) {
         this.id = id++;
         this.name = descriptor.name;
         this.descriptor = descriptor;
@@ -93,6 +99,9 @@ class Entity {
             Object.keys(component.fields).forEach((fieldName) => {
                 this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
             }) ;
+            if (component.onCreate) {
+                component.onCreate.call(this[componentName], this, ecs);
+            }
         });
     }
 

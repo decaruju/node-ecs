@@ -8,31 +8,38 @@ import GravitySystem from './systems/gravity_system.js';
 import BoundingBoxSystem from './systems/bounding_box_system.js';
 import KeyboardMovementSystem from './systems/keyboard_movement_system.js';
 import CollisionSystem from './systems/collision_system.js';
+import CanvasClearWebgl from './systems/canvas_clear_webgl.js';
+import CanvasDrawQuadWebgl from './systems/canvas_draw_quad_webgl.js';
 
 import KeyboardDashListener from './listeners/keyboard_dash_listener.js';
 import MergeOnCollisionListener from './listeners/merge_on_collision_listener.js';
 
 const canvas = document.body.appendChild(document.createElement('canvas'));
 
+canvas.setAttribute('id', "webglcanvas");
 canvas.setAttribute('height', 1000);
 canvas.setAttribute('width', 1000);
-const particles = Array.apply(null, Array(400)).map(() => new Entity(Particle, {Color: {color: '#9090CC'}, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, Circle: { radius: 1 }, CircleCollider: { radius: 1 }, Mass: {mass: 0.1}}))
 
 const ecs = new Ecs(
     [
-        ...particles,
-        new Entity(Blackhole, {Transform: {position: [500, 500]}, Mass: {mass: 100}, Circle: {radius: 30}, CircleCollider: {radius: 30}}),
-        new Entity(Blackhole, {Transform: {position: [600, 500]}, Mass: {mass: 100}, Circle: {radius: 30}, CircleCollider: {radius: 30}}),
+        new CollisionSystem(),
+        new RigidBodySystem(),
+        new GravitySystem(),
+        new BoundingBoxSystem(),
+        new KeyboardMovementSystem(),
+        new CanvasClearWebgl(),
+        new CanvasDrawQuadWebgl(),
     ],
-    [new CollisionSystem(), new CanvasClearSystem(), new CircleCanvasSystem(), new RigidBodySystem(), new GravitySystem(), new BoundingBoxSystem(), new KeyboardMovementSystem()],
     [new KeyboardDashListener(), new MergeOnCollisionListener()],
     {
-        canvas,
+        gl: initWebGL2D("#webglcanvas"),
         config: {
             canvasColor: '#2E3440',
         },
     },
 );
+Array.apply(null, Array(400)).forEach(() => ecs.addEntity(Particle, {Color: {color: '#9090CC'}, Sprite: { src:  "resources/orb_blue.png" }, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, Circle: { radius: 1 }, CircleCollider: { radius: 1 }, Mass: {mass: 0.1}}))
+ecs.addEntity(Blackhole, {Transform: {position: [500, 500]}, Mass: {mass: 100}, Sprite: {size: [60, 60], src: "resources/orb_blue.png" }, CircleCollider: {radius: 30}});
 
 function runOnce() {
     ecs.tick()
