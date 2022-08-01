@@ -36,13 +36,12 @@ const ecs = new Ecs(
         gl: initWebGL2D("#webglcanvas"),
     },
 );
-ecs.addEntity(Ball, {Collider: {collider: new CircleCollider(5)}, Transform: {position: [150, 150]}, RigidBody: { speed: [Math.random()*5, Math.random()*10]}, Sprite: {size: [10, 10], src: "../shared/resources/orb_blue.png"}})
+ecs.addEntity(Ball, {Collider: {collider: new CircleCollider(5)}, Transform: {position: [150, 150]}, RigidBody: { speed: [3, 4]}, Sprite: {size: [10, 10], src: "../shared/resources/orb_blue.png"}})
 ecs.addEntity(Platform, {Collider: {collider: new PlatformCollider(100, 20)}, Transform: {position: [100, 100]}, Sprite: {size: [100, 20], src: "../shared/resources/platform.png"}})
 for (let i = 0; i < 50; i++) {
     ecs.addEntity(Wall, {Collider: {collider: new RectangleCollider(20, 20)}, Transform: {position: [10, i*20+10]}, Sprite: {size: [20, 20], src: "../shared/resources/wall.png" }});
     ecs.addEntity(Wall, {Collider: {collider: new RectangleCollider(20, 20)}, Transform: {position: [990, i*20+10]}, Sprite: {size: [20, 20], src: "../shared/resources/wall.png" }});
     ecs.addEntity(Wall, {Collider: {collider: new RectangleCollider(20, 20)}, Transform: {position: [i*20+10, 990]}, Sprite: {size: [20, 20], src: "../shared/resources/wall.png" }});
-    ecs.addEntity(Wall, {Collider: {collider: new RectangleCollider(20, 20)}, Transform: {position: [i*20+10, 10]}, Sprite: {size: [20, 20], src: "../shared/resources/wall.png" }});
 }
 for (let i = 0; i < 20; i++) {
     for (let j = 0; j < 20; j++) {
