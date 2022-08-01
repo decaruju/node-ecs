@@ -1,5 +1,5 @@
 export default {
     fields: {
-        radius: 10,
+        collider: null,
     },
-}
+};

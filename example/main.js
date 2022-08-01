@@ -1,5 +1,6 @@
 import Particle from './entities/particle.js';
 import Blackhole from './entities/blackhole.js';
+import HalfPlane from './entities/half_plane.js';
 
 import CanvasClearSystem from './systems/canvas_clear_system.js';
 import CircleCanvasSystem from './systems/circle_canvas_system.js';
@@ -40,8 +41,10 @@ const ecs = new Ecs(
         },
     },
 );
-Array.apply(null, Array(400)).forEach(() => ecs.addEntity(Particle, {Color: {color: '#9090CC'}, Sprite: { src:  "resources/orb_blue.png" }, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, CircleCollider: { radius: 5 }, Mass: {mass: 0.1}}))
+Array.apply(null, Array(40)).forEach(() => ecs.addEntity(Particle, {Color: {color: '#9090CC'}, Sprite: { src:  "resources/orb_blue.png" }, Transform: {position: [Math.random()*1000, Math.random()*1000]}, RigidBody: {speed: [0, 0]}, CircleCollider: { radius: 5 }, Mass: {mass: 0.1}}))
 ecs.addEntity(Blackhole, {Transform: {position: [500, 500]}, Mass: {mass: 100}, Sprite: {size: [60, 60], src: "resources/orb_blue.png" }, CircleCollider: {radius: 30}});
+ecs.addEntity(HalfPlane, {HalfPlaneCollider: {points: [[0, 600], [800, 600]]}});
+//ecs.addEntity(HalfPlane, {HalfPlaneCollider: {points: [[800, 200], [0, 200]]}});
 
 function runOnce() {
     ecs.tick()
