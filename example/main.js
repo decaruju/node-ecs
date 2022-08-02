@@ -35,7 +35,7 @@ const ecs = new Ecs(
     ],
     [new KeyboardDashListener(), new MergeOnCollisionListener()],
     {
-        gl: initWebGL2D("#webglcanvas"),
+        gl: initWebGl2D("#webglcanvas"),
         config: {
             canvasColor: '#2E3440',
         },
@@ -52,6 +52,5 @@ function runOnce() {
    setTimeout(runOnce, 15);
 }
 
-console.log(ecs)
 
 runOnce();

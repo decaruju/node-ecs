@@ -1,3 +1,6 @@
+import System from './systems/system.js';
+import initWebGl2D from './webgl2d.js';
+
 class Ecs {
     constructor(systems, listeners, globals) {
         this.entities = [];
@@ -58,7 +61,7 @@ class Ecs {
     }
 
     addEntity(entityClass, descriptor) {
-        const entity = new Entity(this, entityClass, descriptor);
+        const entity = new Entity(this, entityClass, descriptor || {});
         this.entities.push(entity);
         return entity;
     }
@@ -66,23 +69,11 @@ class Ecs {
 
 let id = 0
 
-class System {
-    priority = 1;
-
-    tick() {}
-}
 
 class Listener {
     eventName = null
 
     handle(_event) {}
-}
-
-class Event {
-    constructor(eventName, params) {
-        this.eventName = eventName;
-        this.params = params;
-    }
 }
 
 class Entity {
@@ -97,7 +88,7 @@ class Entity {
             const component = descriptor.components[componentName];
             this[componentName] = {};
             Object.keys(component.fields).forEach((fieldName) => {
-                this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
+                this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? descriptor.fields()?.[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
             }) ;
             Object.keys(component.methods || {}).forEach((methodName) => {
                 this[componentName][methodName] = component.methods[methodName];
@@ -113,7 +104,29 @@ class Entity {
     }
 }
 
-window.Ecs = Ecs;
-window.Entity = Entity
-window.Event = Event
-window.System = System
+export default {
+    Ecs,
+    Entity,
+    System,
+    Listener,
+    initWebGl2D,
+    systems: {
+        AnimationSystem: require('./systems/animation_system.js').default,
+        CanvasClearWebgl: require('./systems/canvas_clear_webgl.js').default,
+        CanvasDrawQuadWebgl: require('./systems/canvas_draw_quad_webgl.js').default,
+        CollisionSystem: require('./systems/collision_system.js').default,
+        RigidBodySystem: require('./systems/rigid_body_system.js').default,
+    },
+    components: {
+        Animated: require('./components/animated.js').default,
+        Collider: require('./components/collider.js').default,
+        RigidBody: require('./components/rigid_body.js').default,
+        Sprite: require('./components/sprite.js').default,
+        Transform: require('./components/transform.js').default,
+    },
+    colliders: {
+        BaseCollider: require('./colliders/base_collider.js').default,
+        CircleCollider: require('./colliders/circle_collider.js').default,
+        RectangleCollider: require('./colliders/rectangle_collider.js').default,
+    },
+};

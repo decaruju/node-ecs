@@ -1,14 +1,11 @@
 export default class extends System {
     tick(ecs) {
-        console.log("in")
         ecs.entitiesWithComponents(['Collider']).forEach((entity1) => {
             ecs.entitiesWithComponents(['Collider']).forEach((entity2) => {
                 if (entity1.id <= entity2.id) return;
                 const closestPoint = entity2.Collider.collider.closestPoint(entity2.Transform.position, entity1.Transform.position);
-                console.log(closestPoint, entity1.Transform.position);
 
                 if (entity1.Collider.collider.containsPoint(entity1.Transform.position, closestPoint)) {
-                    console.log('collision between', entity1.id, entity2.id);
                 }
             });
         })

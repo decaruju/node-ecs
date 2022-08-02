@@ -31,7 +31,6 @@ function createShader(gl, type, source) {
     return shader;
   }
 
-  console.log(gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
 }
 
@@ -45,7 +44,6 @@ function createProgram(gl, vertexShader, fragmentShader) {
     return program;
   }
 
-  console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 }
 
@@ -61,11 +59,10 @@ function quadTrianglesPositions(position, size) {
     ];
 }
 
-window.initWebGL2D = function(canvasId) {
+export default function(canvasId) {
     const canvas = document.querySelector(canvasId);
     const gl = canvas.getContext("webgl");
     if (!gl) {
-        console.log("could not initialize webgl context on canvas")
         return;
     }
     gl.enable(gl.BLEND);

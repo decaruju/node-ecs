@@ -1,4 +1,6 @@
-export default class extends Listener {
+import ecs from 'ecs';
+
+export default class extends ecs.Listener {
     eventName = 'collision'
 
     handle(ecs, event) {

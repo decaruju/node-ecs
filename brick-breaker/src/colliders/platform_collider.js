@@ -1,10 +1,9 @@
-import RectangleCollider from '../../shared/colliders/rectangle_collider.js';
+import ecs from 'ecs';
 
-export default class extends RectangleCollider {
+export default class extends ecs.colliders.RectangleCollider {
     normal(position, point, origin) {
         const normal = super.normal(position, point, origin);
         normal[0] += (point[0]-position[0])/this.width;
-        console.log(normal)
         return normalise(normal);
     }
 }
