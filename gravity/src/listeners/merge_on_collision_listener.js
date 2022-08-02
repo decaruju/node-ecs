@@ -5,7 +5,6 @@ export default class extends ecs.Listener {
 
     handle(ecs, event) {
         if (event.params.entity1.hasComponent("MergeOnCollision") && event.params.entity2.hasComponent("MergeOnCollision")) {
-            console.log("merging")
             const entity1 = event.params.entity1;
             const entity2 = event.params.entity2;
             entity2.active = false;

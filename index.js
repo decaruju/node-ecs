@@ -11,13 +11,13 @@ class Ecs {
         this.pressedKeys = {};
         window.onkeydown = (e) => {
             e = e || window.event;
-            if (!this.pressedKeys[e.keyCode]) this.events.push(new Event("keydown", e))
+            if (!this.pressedKeys[e.keyCode]) this.events.push({eventName: "keydown", params: e})
             this.pressedKeys[e.keyCode] = true;
         }
 
         window.onkeyup = (e) => {
             e = e || window.event;
-            if (this.pressedKeys[e.keyCode]) this.events.push(new Event("keyup", e))
+            if (this.pressedKeys[e.keyCode]) this.events.push({eventName: "keyup", params: e})
             this.pressedKeys[e.keyCode] = false;
         }
         this.tickCount = 0;
@@ -116,6 +116,7 @@ export default {
         CanvasDrawQuadWebgl: require('./systems/canvas_draw_quad_webgl.js').default,
         CollisionSystem: require('./systems/collision_system.js').default,
         RigidBodySystem: require('./systems/rigid_body_system.js').default,
+        FallSystem: require('./systems/fall_system.js').default,
     },
     components: {
         Animated: require('./components/animated.js').default,
@@ -123,6 +124,7 @@ export default {
         RigidBody: require('./components/rigid_body.js').default,
         Sprite: require('./components/sprite.js').default,
         Transform: require('./components/transform.js').default,
+        Fall: require('./components/fall.js').default,
     },
     colliders: {
         BaseCollider: require('./colliders/base_collider.js').default,

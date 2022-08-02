@@ -8,6 +8,8 @@ export default class extends System {
                 if (entity1.Collider.collider === null || entity2.Collider.collider === null) return;
                 const closestPoint = entity2.Collider.collider.closestPoint(entity2.Transform.position, entity1.Transform.position);
                 if (entity1.Collider.collider.containsPoint(entity1.Transform.position, closestPoint)) {
+                    ecs.events.push({eventName: "collision", params: {entity1, entity2}})
+                    if (entity1.Collider.isTrigger || entity2.Collider.isTrigger) return;
                     const normal = entity1.Collider.collider.normal(entity1.Transform.position, closestPoint, entity2.Transform.oldPosition);
                     if (normal[0] == 0 && normal[1] == 0) {
                     } else {
@@ -18,7 +20,6 @@ export default class extends System {
                         entity2.Transform.position[0] += normal[0]*totalSpeed;
                         entity2.Transform.position[1] += normal[1]*totalSpeed;
                     }
-                    ecs.events.push({eventName: "collision", params: {entity1, entity2}})
                     return
                 }
             });
