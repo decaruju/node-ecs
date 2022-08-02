@@ -1,4 +1,6 @@
-export default class extends System {
+import ecs from 'ecs';
+
+export default class extends ecs.System {
     tick(ecs) {
         ecs.entitiesWithComponents(["BoundingBox", "Transform"]).forEach((entity) => {
             entity.Transform.position[0] = flip(entity.Transform.position[0], entity.BoundingBox.min_x, entity.BoundingBox.max_x);

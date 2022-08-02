@@ -1,4 +1,6 @@
-export default class extends System {
+import ecs from 'ecs';
+
+export default class extends ecs.System {
     tick(ecs) {
         const entitiesWithMass = ecs.entitiesWithComponents(['Mass', 'Transform']).filter((entity) => entity.Mass.mass > 0);
         ecs.entitiesWithComponents(['Mass', 'RigidBody', 'Transform']).forEach(entity1 => {

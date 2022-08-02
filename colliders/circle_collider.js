@@ -19,5 +19,17 @@ export default class extends BaseCollider {
     }
 
     normal(position, point) {
+        return normalise([
+            point[0] - position[0],
+            point[1] - position[1],
+        ]);
     }
+}
+
+function normalise(v) {
+    const size = Math.sqrt(v[0]**2+v[1]**2);
+    return [
+        v[0]/size,
+        v[1]/size,
+    ]
 }
