@@ -6,7 +6,6 @@ import './components.js';
 import KeyboardListener from './listeners/keyboard_listener.js';
 import GameOverListener from './listeners/game_over_listener.js';
 import PointListener from './listeners/point_listener.js';
-import generateFunction from './level_generator.js';
 
 const game = new ecs.Ecs(
     [
@@ -23,18 +22,19 @@ const game = new ecs.Ecs(
     ],
     {
         gl: ecs.initWebGl2D("#webglcanvas"),
-        points: 0
     },
 );
 
-generateFunction(game);
+game.buildEntity("Ground");
+game.buildEntity("Sun");
+
+console.log(game);
 
 
 function runOnce() {
     game.tick()
     if (!game.running) return;
     setTimeout(runOnce, 15);
-    document.getElementById("score").innerText = game.points;
 }
 
 

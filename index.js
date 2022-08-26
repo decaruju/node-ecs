@@ -42,6 +42,14 @@ class Ecs {
                 }
             })
         })
+        Object.keys(componentClasses).forEach((componentClassName) => {
+            const componentClass = componentClasses[componentClassName];
+            if (componentClass.tick) {
+                this.entitiesWithComponents([componentClassName]).forEach((entity) => {
+                    componentClass.tick(entity);
+                });
+            }
+        });
         this.events = []
         this.callbacks.forEach((callback) => {
             if (callback.ticks > 0) {
@@ -64,6 +72,11 @@ class Ecs {
         const entity = new Entity(this, entityClass, descriptor || {});
         this.entities.push(entity);
         return entity;
+    }
+
+    buildEntity(entityClassName, descriptor) {
+        const entityClass = entityClasses[entityClassName];
+        return this.addEntity(entityClass, descriptor);
     }
 }
 
@@ -109,10 +122,10 @@ class Entity {
         this.componentNames = Object.keys(descriptor.components);
 
         Object.keys(descriptor.components).forEach((componentName) => {
-            const component = descriptor.components[componentName];
+            const component = componentClasses[componentName];
             this[componentName] = {};
-            Object.keys(component.fields).forEach((fieldName) => {
-                this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? descriptor.fields()?.[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
+            Object.keys(component.fields || {}).forEach((fieldName) => {
+                this[componentName][fieldName] = componentValues[componentName]?.[fieldName] ?? descriptor.components?.[componentName]?.[fieldName] ?? JSON.parse(JSON.stringify(component.fields[fieldName]));
             }) ;
             Object.keys(component.methods || {}).forEach((methodName) => {
                 this[componentName][methodName] = component.methods[methodName];
@@ -127,6 +140,16 @@ class Entity {
         return this.componentNames.includes(componentName);
     }
 }
+
+const entityClasses = {};
+const componentClasses = {
+    Animated: require('./components/animated.js').default,
+    Collider: require('./components/collider.js').default,
+    RigidBody: require('./components/rigid_body.js').default,
+    Sprite: require('./components/sprite.js').default,
+    Transform: require('./components/transform.js').default,
+    Fall: require('./components/fall.js').default,
+};
 
 export default {
     Ecs,
@@ -148,15 +171,8 @@ export default {
     registerEntity(entityName, entity) {
         this.entities[entityName] = entity;
     },
-    entities: {},
-    components: {
-        Animated: require('./components/animated.js').default,
-        Collider: require('./components/collider.js').default,
-        RigidBody: require('./components/rigid_body.js').default,
-        Sprite: require('./components/sprite.js').default,
-        Transform: require('./components/transform.js').default,
-        Fall: require('./components/fall.js').default,
-    },
+    entities: entityClasses,
+    components: componentClasses,
     colliders: {
         BaseCollider: require('./colliders/base_collider.js').default,
         CircleCollider: require('./colliders/circle_collider.js').default,

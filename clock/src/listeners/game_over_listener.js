@@ -1,5 +1,4 @@
 import ecs from 'ecs';
-import generateFunction from '../level_generator.js';
 
 export default class extends ecs.Listener {
     eventName = 'collision'
