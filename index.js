@@ -76,6 +76,30 @@ class Listener {
     handle(_event) {}
 }
 
+class Router {
+    constructor() {
+        this.history = []
+        this.scenes = {}
+    }
+
+    registerScene(sceneName, sceneClass) {
+        this.scenes[sceneName] = sceneClass;
+    }
+
+    go(sceneName, params={}) {
+        const scene = this.scenes[sceneName]
+        this.history.push({routeName, params})
+    }
+
+    currentRoute() {
+        return this.history[this.history.length-1]
+    }
+}
+
+class Scene {
+    build(game) {}
+}
+
 class Entity {
     constructor(ecs, descriptor, componentValues) {
         this.id = id++;
@@ -118,6 +142,13 @@ export default {
         RigidBodySystem: require('./systems/rigid_body_system.js').default,
         FallSystem: require('./systems/fall_system.js').default,
     },
+    registerComponent(componentName, component) {
+        this.components[componentName] = component;
+    },
+    registerEntity(entityName, entity) {
+        this.entities[entityName] = entity;
+    },
+    entities: {},
     components: {
         Animated: require('./components/animated.js').default,
         Collider: require('./components/collider.js').default,

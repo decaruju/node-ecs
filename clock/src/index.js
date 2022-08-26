@@ -10,7 +10,6 @@ import generateFunction from './level_generator.js';
 
 const game = new ecs.Ecs(
     [
-        new ecs.systems.CollisionSystem(),
         new ecs.systems.RigidBodySystem(),
         new ecs.systems.CanvasClearWebgl(),
         new ecs.systems.CanvasDrawQuadWebgl(),

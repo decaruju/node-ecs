@@ -1,20 +1,18 @@
 import ecs from 'ecs';
 
-import FlyOnKeydown from '../components/fly_on_keydown.js';
-import DieOnCollision from '../components/die_on_collision.js';
-
+import GameOverIfOutOfBounds from '../components/game_over_if_out_of_bounds.js';
+import ControlledByKeyboard from '../components/controlled_by_keyboard.js';
 
 export default {
     name: "Bird",
     components: {
         Sprite: ecs.components.Sprite,
-        Animated: ecs.components.Animated,
         Transform: ecs.components.Transform,
         RigidBody: ecs.components.RigidBody,
         Collider: ecs.components.Collider,
         Fall: ecs.components.Fall,
-        FlyOnKeydown,
-        DieOnCollision,
+        GameOverIfOutOfBounds,
+        ControlledByKeyboard,
     },
     fields() {
         return {

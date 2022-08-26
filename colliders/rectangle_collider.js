@@ -34,10 +34,10 @@ export default class extends BaseCollider {
             position[1]+this.height/2.0,
         ];
         if (intersects(bl, br, point, origin)) {
-            normal[1] -= 1;
+            normal[1] -= (position[1]-this.height/2.0)-point[1];
         }
         if (intersects(tl, tr, point, origin)) {
-            normal[1] += 1;
+            normal[1] += (position[1]+this.height/2.0)-point[1];
         }
         if (intersects(bl, tl, point, origin)) {
             normal[0] -= 1;
@@ -45,14 +45,8 @@ export default class extends BaseCollider {
         if (intersects(br, tr, point, origin)) {
             normal[0] += 1;
         }
-        //if (normal[0] == 0 && normal[1] == 0) {
-         //   const oldPosition = [
-          //      2*(origin[0] - point[0]) + origin[0],
-           //     2*(origin[1] - point[1]) + origin[1],
-            //]
-//            const newNormal = this.normal(position, point, oldPosition)
- //           return newNormal;
-  //      }
+        console.log("test")
+        console.log(normal)
         return normal
     }
 }
